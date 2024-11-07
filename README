@@ -1,0 +1,45 @@
+HOST           NETNS
+
+a_edge ------- edge   }
+                      } bridge0
+               gretap }
+               |
+               | IP/MPLS
+               |
+a_core ------- core (192.168.101.11)
+}
+} bridge_a
+}
+a_core_i ----- core_a (192.168.101.99)
+               |
+               | MPLS / label switching (no IP forwarding!)
+               |
+b_core_i ----- core_b (192.168.102.99)
+}
+} bridge_b
+}
+b_core ------- core (192.168.102.22)
+               |
+               | IP/MPLS
+               |
+               gretap }
+                      } bridge0
+a_edge ------- edge   }
+
+
+
+How to run:
+
+0. have a Linux box
+1. have root or start some container or create a userns or whatever
+2. run ./setup.sh - this will just create 2 bridges (bridge_a, bridge_b)
+3. (in any order:)
+3a. run ./endpoint.sh a
+3b. run ./endpoint.sh b
+3c. run ./core.sh
+
+
+attach wireshark to bridge_a, bridge_b, a_edge, b_edge depending on interest
+
+"ping6 ff02::1%a_edge" to generate some traffic.  note the "bridge0" interface
+inside the netns will also respond
