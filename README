@@ -43,3 +43,7 @@ attach wireshark to bridge_a, bridge_b, a_edge, b_edge depending on interest
 
 "ping6 ff02::1%a_edge" to generate some traffic.  note the "bridge0" interface
 inside the netns will also respond
+
+
+NOTE for demo.pcapng: sort by time! (packets are out of order due to capture
+buffering and capturing on multiple interfaces)
